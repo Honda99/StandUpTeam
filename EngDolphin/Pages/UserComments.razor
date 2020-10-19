@@ -1,0 +1,79 @@
+﻿@page "/usercomment"
+@inherits UserCommentComp
+    <head>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+        <style>
+            #textArea {
+                overflow: hidden;
+                resize: vertical;
+            }
+
+            .commentArea {
+                margin-bottom: 20px;
+                margin-top: 20px;
+                -webkit-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+                -moz-box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+                width: 400px;
+            }
+
+            #comDate {
+                display: flex;
+                justify-items: center;
+                justify-content: center;
+                align-items: center;
+                background-color: lavender;
+                border-top-left-radius: 25px;
+                border-top-right-radius: 25px;
+            }
+
+            .comText {
+                background-color: lavenderblush;
+                border-bottom: inset;
+                word-wrap: break-word;
+
+            }
+        </style>
+
+
+    </head>
+
+<h2>Comments</h2>
+
+@if(AllComments!=null)
+{
+    @foreach (var list in AllComments)
+    {
+<div class="commentArea">
+    <div id="comDate" class="row" >
+        <div class="col-md-10" id="comDate">@list.dateTime </div>
+        <div class="col-md-2">
+            <button style="border:none;background-color:transparent;" @onclick="@(e=>DeleteComment(e,list.Id))"> 
+              <span class="glyphicon glyphicon-remove-circle" style="color:red;"></span>
+            </button>
+        </div>
+    </div>
+    <div class="comText">@list.Text</div>
+</div>
+        
+    }
+
+}
+
+<EditForm Model="@userComment" OnValidSubmit="@SubmitComment">
+    <div class="row">
+        <div class="col-md-6">
+            <DataAnnotationsValidator />
+            <InputTextArea id="textArea" maxlength="150" rows="6" placeholder="leave comments here" class="form-control" @bind-Value="@userComment.Text"></InputTextArea>
+            <ValidationMessage For="@(()=>userComment.Text)" />
+        </div>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-sm" style="left:30%;margin-top:10px">Submit</button>
+    </div>
+</EditForm>
+@code{
+
+}

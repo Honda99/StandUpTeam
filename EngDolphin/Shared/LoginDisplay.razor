@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@inject SignInManager<IdentityUser> signInManager
+
+<AuthorizeView>
+    <Authorized>
+        <a href=" ">Hello,@UserName </a>
+        <form method="post" action="Identity/Account/LogOut">
+            <button type="submit" class="nav-link btn btn-link">Log out</button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <a href="Identity/Account/Register">Register</a>
+        <a href="Identity/Account/Login">Log inplease</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code{
+    string UserName = "";
+    
+   
+     protected override void OnInitialized()
+    {
+         var userName =  signInManager.Context.User.Identity.Name;
+        UserName = userName;
+    }
+
+}

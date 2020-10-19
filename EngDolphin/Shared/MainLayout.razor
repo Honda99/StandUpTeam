@@ -1,0 +1,37 @@
+﻿
+@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Identity
+@inject NavigationManager navigationManager
+@inject SignInManager<IdentityUser> signInManager
+<AuthorizeView>
+    <Authorized>
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+<div class="main" style="margin-bottom:0px;padding-bottom:0px;">
+    <div class="top-row px-4">
+        <LoginDisplay />
+    </div>
+
+    <div class="content px-4" style="height:90%;overflow:scroll">
+        @Body
+    </div>
+    <footer style="height:10%; background-color:darkgoldenrod;display:flex;justify-content:center;align-items:center">yosefhayle14@gmail.com</footer>
+</div>
+
+@code{
+    [CascadingParameter]
+    Task<AuthenticationState> authenticationState { get; set; }
+    protected override async Task  OnParametersSetAsync()
+    {
+        var authState = await authenticationState;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            navigationManager.NavigateTo("/Identity/Account/Login");
+        }
+}
+}
